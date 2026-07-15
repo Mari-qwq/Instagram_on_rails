@@ -6,7 +6,16 @@
     Добро пожаловать, <%= current_user.username %>
   </p>
 
-  <%= button_to "Log out",
+  <%= link_to "My profile",
+      user_profile_path(current_user.username) %>
+      
+    <br><br>
+
+    <%= link_to "Create post", new_post_path %>
+
+    <br><br>
+
+    <%= button_to "Log out",
       destroy_user_session_path,
       method: :delete %>
 
@@ -20,4 +29,6 @@
   <%= link_to "Log in",
       new_user_session_path %>
 
+
 <% end %>
+
