@@ -2,24 +2,18 @@
   <%= @post.caption %>
 </h1>
 
-
 <p>
   Author:
   <%= @post.user.username %>
 </p>
 
-
 <% if @post.image.attached? %>
-
   <%= image_tag @post.image %>
-
 <% end %>
 
 <% if current_user == @post.user %>
 
-  <%= link_to "Edit",
-      edit_post_path(@post) %>
-
+  <%= link_to "Edit", edit_post_path(@post) %>
 
   <%= button_to "Delete",
       post_path(@post),
@@ -27,6 +21,53 @@
 
 <% end %>
 
+<hr>
+
+<h2>Comments</h2>
+
+<% @post.comments.each do |comment| %>
+
+  <div>
+
+    <strong>
+      <%= comment.user.username %>
+    </strong>
+
+    <p>
+      <%= comment.body %>
+    </p>
+
+    <% if current_user == comment.user %>
+
+      <%= button_to "Delete comment",
+          post_comment_path(@post, comment),
+          method: :delete %>
+
+    <% end %>
+
+    <hr>
+
+  </div>
+
+<% end %>
+
+<% if user_signed_in? %>
+
+  <h3>Add comment</h3>
+
+  <%= form_with(model: [@post, Comment.new]) do |form| %>
+
+    <p>
+      <%= form.text_area :body %>
+    </p>
+
+    <p>
+      <%= form.submit "Add comment" %>
+    </p>
+
+  <% end %>
+
+<% end %>
 
 <%= link_to "Back",
-    user_profile_path(@post.user.username) %>
+    root_path %>

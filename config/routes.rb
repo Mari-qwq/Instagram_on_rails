@@ -5,7 +5,9 @@ Rails.application.routes.draw do
 
   get "users/:username", to: "users#show", as: :user_profile
 
-  resources :posts
+  resources :posts do
+    resources :comments, only: [:create, :destroy]
+  end
 
   root "home#index"
 end
